@@ -10,6 +10,9 @@
     <a [routerLink]="['/auth']" routerLinkActive="text-white">LogIn/SingIn</a>
     } @if (authService.currentUserSignal() !== null) {
     <a [routerLink]="['/profile']" routerLinkActive="text-white">Profile</a>
+    <a [routerLink]="['/messagerie']" routerLinkActive="text-white"
+      >Messagerie</a
+    >
     }
 
     <a [routerLink]="['/articles']" routerLinkActive="text-white">articles</a>
