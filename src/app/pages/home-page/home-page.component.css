@@ -8,4 +8,13 @@ h1 {
     top: 50%;
     margin: 0;
     font-size: 40px;
+    color: #36ba01;
+}
+
+.images_background {
+    background-image: url('https://www.espine.in/blog/wp-content/uploads/2022/08/software-developer.jpg'), url('https://ispe.nl/wp-content/uploads/2022/02/social-media.jpg');
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, cover;
+    background-attachment: fixed, fixed;
 }
