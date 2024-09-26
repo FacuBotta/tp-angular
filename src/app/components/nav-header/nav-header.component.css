@@ -1,15 +1,20 @@
 header {
     width: 100vw;
     height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 nav {
-    position: relative;
+    /* position: relative;
     top: 50%;
-    margin: 0;
+    margin: 0; */
+    line-height: 1;
 }
 
 a {
-    margin: 4%;
+    margin-left: 4%;
+    margin-right: 4%;
     font-size: 24px;
 }
