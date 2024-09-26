@@ -1,12 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, effect, Input } from '@angular/core';
+import { ArticleServiceService } from '../../article-service.service';
+import { CommonModule, NgClass } from '@angular/common';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-articles-page',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, NgClass, ReactiveFormsModule],
   templateUrl: './articles-page.component.html',
   styleUrl: './articles-page.component.css'
 })
 export class ArticlesPageComponent {
+  pageTitle = 'Liste des articles';
+  list_articles:any = [];
+  displayModal:boolean = false;
+  valuesArticle:any = [];
+  values:any = [];
+  // var form
+  id:string = '';
+  title:string = '';
+  subtitle:string = '';
+  description:string = '';
+  content:string = '';
+  online:boolean = false;
 
+  constructor(private articles: ArticleServiceService){
+    effect(() => {
+      this.list_articles = this.articles.getArticles();
+    })
+  }
+  editArticle(id:number){
+    this.valuesArticle = this.articles.getArticle(id);  
+    console.log(this.valuesArticle);
+    
+    this.id = this.valuesArticle.id;
+    this.title = this.valuesArticle.title;
+    this.subtitle = this.valuesArticle.subtitle;
+    this.description = this.valuesArticle.description;
+    this.content = this.valuesArticle.content;
+    this.online = this.valuesArticle.online;
+  }
+  save(id:number){
+    this.values = [{id : this.id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];
+    console.log(this.id);
+    
+    this.articles.updateArticle(id, this.values[0])
+  }
 }
