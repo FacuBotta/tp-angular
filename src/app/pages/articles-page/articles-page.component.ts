@@ -1,4 +1,4 @@
-import { Component, effect, Input } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { ArticleServiceService } from '../../article-service.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -31,8 +31,7 @@ export class ArticlesPageComponent {
   }
   editArticle(id:number){
     this.valuesArticle = this.articles.getArticle(id);  
-    console.log(this.valuesArticle);
-    
+    // Affect values
     this.id = this.valuesArticle.id;
     this.title = this.valuesArticle.title;
     this.subtitle = this.valuesArticle.subtitle;
@@ -41,9 +40,7 @@ export class ArticlesPageComponent {
     this.online = this.valuesArticle.online;
   }
   save(id:number){
-    this.values = [{id : this.id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];
-    console.log(this.id);
-    
+    this.values = [{id : this.id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
     this.articles.updateArticle(id, this.values[0])
   }
 }

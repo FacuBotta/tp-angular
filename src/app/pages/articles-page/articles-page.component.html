@@ -18,7 +18,12 @@
         </div>
         <div class="icons">
           <div><i class="fa-solid fa-heart"></i><span>10</span></div>
-          <div>
+          <div
+            [ngClass]="{
+              visible: article.online,
+              invisible: !article.online
+            }"
+          >
             <span>Visibilité </span
             ><i
               class="fa-solid"

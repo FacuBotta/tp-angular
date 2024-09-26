@@ -106,8 +106,7 @@ export class ArticleServiceService {
           online: articleArray.online,
         } : article
       )
-    )
-    console.log(this.articles());    
+    ) 
   }
 
 }
