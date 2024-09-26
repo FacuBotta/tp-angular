@@ -1,1 +1,17 @@
+body {
+    margin: 0;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    /* Center vertically and horizontally */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
 
+.website_font_style {
+    font-family: "Source Code Pro", monospace;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
