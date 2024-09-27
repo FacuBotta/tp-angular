@@ -13,3 +13,10 @@ export interface UserInterface {
   image?: string;
   articles?: ArticleInterface[];
 }
+
+export interface messageType {
+  id: number;
+  content: string;
+  user: string;
+  sendAt: Date;
+}

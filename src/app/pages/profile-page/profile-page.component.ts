@@ -34,6 +34,7 @@ export class ProfilePageComponent {
   constructor() {
     // On subscribe à user$ pour récupérer les données de l'utilisateur courant
     this.user$.subscribe((user: any) => {
+      console.log(user.displayName);
       if (user) {
         this.username = user.displayName;
         this.email = user.email;
