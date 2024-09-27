@@ -19,14 +19,15 @@ export class ArticlesPageComponent implements OnInit{
   profileService = inject(ProfileService);
   pageTitle = 'Liste des articles';
   list_articles:any = [];
-  displayModal:boolean = false;
-  displayAddModal:boolean = false;
   valuesArticle:any = [];
   values:any = [];
   isHovered:boolean = false;
   articles$: Observable<ArticleInterface[]>;
   articles: ArticleInterface[] = [];
-  article:any;
+  article:any;  
+  displayModal:boolean = false;
+  displayAddModal:boolean = false;
+  displayConfirmModal:boolean = false;
   // get current user
   currentUser$ = this.profileService.currentUser$;
   userId:string = '';

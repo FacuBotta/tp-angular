@@ -104,9 +104,7 @@
         <div>
           <p>
             Author :
-            <span class="followers"
-              >{{ article.authorName }} - 50 followers</span
-            >
+            <span class="followers">{{ userName }} - 50 followers</span>
           </p>
         </div>
         <div class="icons">
@@ -144,12 +142,54 @@
             class="fa-solid fa-pen"
             (click)="[editArticle(article.id), (displayModal = !displayModal)]"
           ></i>
-          <i class="fa-solid fa-trash" (click)="deleteArticle(article.id)"></i>
+          <i
+            class="fa-solid fa-trash"
+            (click)="displayConfirmModal = !displayConfirmModal"
+          ></i>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- MODAL CONFIRM -->
+<div
+  id="confirmModal"
+  class="modalSupp"
+  [ngClass]="[!displayConfirmModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <span
+      class="close-btn"
+      id="closeModal"
+      (click)="displayConfirmModal = !displayConfirmModal"
+      >&times;</span
+    >
+    <h2>Confirmer la suppression</h2>
+    <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
+    <div class="modal-actions">
+      <button
+        id="confirmDeleteBtn"
+        class="confirm-btn"
+        (click)="
+          [
+            deleteArticle(article.id),
+            (displayConfirmModal = !displayConfirmModal)
+          ]
+        "
+      >
+        Confirmer
+      </button>
+      <button
+        id="cancelDeleteBtn"
+        class="cancel-btn"
+        (click)="displayConfirmModal = !displayConfirmModal"
+      >
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>
+<!-- EDIT MODAL -->
 <div
   id="editModal"
   class="modal"
