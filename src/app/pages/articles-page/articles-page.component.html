@@ -216,38 +216,53 @@
         readonly
       />
 
-      <label for="article-title">Titre</label>
-      <input
-        type="text"
-        id="article-title"
-        name="title"
-        [(ngModel)]="title"
-        [value]="valuesArticle.title"
-      />
+      <div
+        id="editModal"
+        class="modal"
+        [ngClass]="[!displayModal ? 'hidden' : 'display']"
+      >
+        <div class="modal-content">
+          <div class="header">
+            <div>
+              <h2>Modifier l'Article</h2>
+            </div>
+            <div class="close-btn">
+              <i
+                class="fa-solid fa-xmark"
+                (click)="displayModal = !displayModal"
+              ></i>
+            </div>
+          </div>
 
-      <label for="article-subtitle">Sous-titre</label>
-      <input
-        type="text"
-        id="article-subtitle"
-        name="subtitle"
-        [(ngModel)]="subtitle"
-        [value]="valuesArticle.subtitle"
-      />
+          <form id="editArticleForm">
+            <label for="article-id">ID de l'Article</label>
+            <input
+              type="text"
+              id="article-id"
+              name="id"
+              [value]="valuesArticle.id"
+              [(ngModel)]="id"
+              readonly
+            />
 
-      <label for="article-content">Contenu</label>
-      <textarea
-        id="article-content"
-        name="content"
-        [(ngModel)]="content"
-        [placeholder]="valuesArticle.content"
-      ></textarea>
+            <label for="article-title">Titre</label>
+            <input
+              type="text"
+              id="article-title"
+              name="title"
+              [(ngModel)]="title"
+              [value]="valuesArticle.title"
+            />
 
-      <label for="article-online">Statut en Ligne</label>
-      <label id="article-online" class="switch">
-        <input type="checkbox" name="online" [(ngModel)]="online" />
-        <span class="slider round"></span>
-      </label>
-      <button type="submit" (click)="save(id)">Sauvegarder</button>
+            <label for="article-online">Statut en Ligne</label>
+            <label id="article-online" class="switch">
+              <input type="checkbox" name="online" [(ngModel)]="online" />
+              <span class="slider round"></span>
+            </label>
+            <button type="submit" (click)="save(id)">Sauvegarder</button>
+          </form>
+        </div>
+      </div>
     </form>
   </div>
 </div>
