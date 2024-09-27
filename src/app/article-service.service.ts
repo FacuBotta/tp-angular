@@ -124,18 +124,11 @@ export class ArticleServiceService {
     const articleIdString = id.toString();
     const articleDocRef = doc(this.firestore, 'articles', articleIdString); 
     return from(updateDoc(articleDocRef, articleArray));
-    // this
-    // this.articles.update( articles => 
-    //   articles.map( (article:any) => 
-    //     article.id === id ? { ...article, 
-    //       title: articleArray.title,
-    //       subtitle: articleArray.subtitle,
-    //       description: articleArray.description,
-    //       content: articleArray.content,
-    //       online: articleArray.online,
-    //     } : article
-    //   )
-    // ) 
   }
 
+  delete(id:number){
+    const articleIdString = id.toString();
+    const articleDocRef = doc(this.firestore, 'articles', articleIdString);
+    return from(deleteDoc(articleDocRef));
+  }
 }

@@ -31,7 +31,8 @@ export class ArticlesPageComponent implements OnInit{
   currentUser$ = this.profileService.currentUser$;
   userId:string = '';
   userName:string = '';
-  message:string = '';
+  success:string = 'Succes';
+  error:string = 'Erreur';
 
   // var form
   id:number = 0;
@@ -58,10 +59,11 @@ export class ArticlesPageComponent implements OnInit{
   }
   addArticles(){ 
     this.articlesService.add(this.title, this.subtitle, this.description, this.content, this.userName, this.userId, this.online).then(() => {
-      console.log('Article insert successfully');
+      this.success = 'Article bien ajouté !';
     })
     .catch((error: any) => {
-      console.error('Error:', error);
+      this.error = "Impossible d'ajouter' l'article =/";        
+
     });
   }
   editArticle(id:number){
@@ -82,16 +84,23 @@ export class ArticlesPageComponent implements OnInit{
     // Affect values
   }
   save(id:number){
-    console.log(id);
-    
     this.values = [{id : id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
     this.articlesService.update(id, this.values[0]).subscribe({
       next: () => {
-        console.error('good');
-         
+        this.success = 'Article bien mis à jour';         
       },
       error: () =>{
-        console.error('wrong')
+        this.error = 'Impossible de mettre à jour l\'article =/';         
+      }
+    })
+  }
+  deleteArticle(id:number){
+    this.articlesService.delete(id).subscribe({
+      next: () => {
+        this.success = 'Article bien supprimé';         
+      },
+      error: () =>{
+        this.error = 'Impossible de supprimer l\'article =/';
       }
     })
   }

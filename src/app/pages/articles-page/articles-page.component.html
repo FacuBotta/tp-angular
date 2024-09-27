@@ -144,7 +144,7 @@
             class="fa-solid fa-pen"
             (click)="[editArticle(article.id), (displayModal = !displayModal)]"
           ></i>
-          <i class="fa-solid fa-trash"></i>
+          <i class="fa-solid fa-trash" (click)="deleteArticle(article.id)"></i>
         </div>
       </div>
     </div>
@@ -165,6 +165,8 @@
       </div>
     </div>
     <form id="editArticleForm">
+      <p class="message-box" *ngIf="success != ''">{{ success }}</p>
+      <p class="message-box" *ngIf="error != ''">{{ error }}</p>
       <label for="article-id">ID de l'Article</label>
       <input
         type="text"
