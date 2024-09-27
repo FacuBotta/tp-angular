@@ -1,6 +1,8 @@
 <div class="chat-container">
   <h2>messages 💬</h2>
-
+  <button class="button-clear-messages" (click)="clearMessages()">
+    Clear messages
+  </button>
   <div class="messages">
     <div *ngFor="let message of messages" class="message">
       <strong>{{ message.user }}:</strong> at:
@@ -15,10 +17,24 @@
   <div class="message-input">
     <input
       type="text"
-      placeholder="Escribe tu mensaje..."
+      placeholder="Ton message..."
       [(ngModel)]="newMessage"
-      (keyup.enter)="sendMessage(newMessage, 'Usuario1')"
+      (keyup.enter)="
+        sendMessage(
+          newMessage,
+          authService.currentUserSignal()?.username || 'No name user'
+        )
+      "
     />
-    <button (click)="sendMessage(newMessage, 'Usuario1')">Enviar</button>
+    <button
+      (click)="
+        sendMessage(
+          newMessage,
+          authService.currentUserSignal()?.username || 'No name user'
+        )
+      "
+    >
+      Envoyer 🚀
+    </button>
   </div>
 </div>

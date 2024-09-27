@@ -4,6 +4,9 @@ import {
   collectionData,
   addDoc,
   Firestore,
+  deleteDoc,
+  getDocs,
+  doc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { messageType } from '../types';
@@ -30,5 +33,15 @@ export class ChatService {
       user,
       sendAt: new Date(),
     });
+  }
+  async deleteAllMessages() {
+    const messagesCollection = collection(this.firestore, 'messages');
+    const messagesSnapshot = await getDocs(messagesCollection);
+
+    const deletePromises = messagesSnapshot.docs.map((docSnapshot) =>
+      deleteDoc(doc(this.firestore, 'messages', docSnapshot.id))
+    );
+
+    return Promise.all(deletePromises);
   }
 }
