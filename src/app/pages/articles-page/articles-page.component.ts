@@ -32,8 +32,8 @@ export class ArticlesPageComponent implements OnInit{
   currentUser$ = this.profileService.currentUser$;
   userId:string = '';
   userName:string = '';
-  success:string = 'Succes';
-  error:string = 'Erreur';
+  success:string = '';
+  error:string = '';
 
   // var form
   id:number = 0;
@@ -96,6 +96,7 @@ export class ArticlesPageComponent implements OnInit{
     })
   }
   deleteArticle(id:number){
+    
     this.articlesService.delete(id).subscribe({
       next: () => {
         this.success = 'Article bien supprimé';         
