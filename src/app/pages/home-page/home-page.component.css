@@ -43,7 +43,7 @@ h1 {
     left: 0;
     top: 0;
     /* -webkit-clip-path: polygon(0 0, 100% 0%, 50% 100%, 0% 100%); */
-    clip-path: polygon(0% 0%, 98% 0%, 0% 98%); 
+    clip-path: polygon(0% 0%, 99% 0%, 0% 99%); 
 
     background-image: url('https://ispe.nl/wp-content/uploads/2022/02/social-media.jpg');
     background-position: center;
@@ -57,7 +57,7 @@ h1 {
     right: 0;
     top: 0;
     /* -webkit-clip-path: polygon(50% 0, 100% 0%, 100% 100%, 0% 100%); */
-    clip-path: polygon(100% 2%, 100% 100%, 2% 100%);
+    clip-path: polygon(100% 1%, 100% 100%, 1% 100%);
     
     background-image: url('https://www.espine.in/blog/wp-content/uploads/2022/08/software-developer.jpg');
     background-position: center;
@@ -70,6 +70,6 @@ h1 {
 .three {
     right: 0;
     top: 0;
-    clip-path: polygon(98% 0%, 100% 0%, 100% 2%, 2% 100%, 0% 100%, 0% 98%);
+    clip-path: polygon(99% 0%, 100% 0%, 100% 1%, 1% 100%, 0% 100%, 0% 99%);
     background-color: black;
 }
