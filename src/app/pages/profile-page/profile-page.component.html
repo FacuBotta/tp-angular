@@ -99,6 +99,25 @@
     />
     <input type="text" [(ngModel)]="modalImageUrl" placeholder="Image Url" />
 
+    <div>
+      <h1>Salut! {{ username }}</h1>
+      <p>Email: {{ email }}</p>
+      <button (click)="logout()">Logout</button>
+      <button (click)="toggleModal()">Éditer mon profil</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalOpen" class="edit-profile-modal">
+  <div class="modal-content">
+    <h2>Éditer mon profil</h2>
+    <input
+      type="text"
+      [(ngModel)]="modalUsername"
+      placeholder="Nom d'utilisateur"
+    />
+    <input type="text" [(ngModel)]="modalImageUrl" placeholder="Image Url" />
+
     <button (click)="toggleModal()">Annuler</button>
     <button (click)="editProfile()">Confirmer</button>
   </div>

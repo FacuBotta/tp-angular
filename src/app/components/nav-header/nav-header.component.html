@@ -1,40 +1,44 @@
 <header>
-  <nav>
-    <a
-      class="website_font_style"
-      [routerLink]="['/']"
-      routerLinkActive="text-white"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Home</a
-    >
-    @if (authService.currentUserSignal() === null) {
-    <a
-      class="website_font_style"
-      [routerLink]="['/auth']"
-      routerLinkActive="text-white"
-      >LogIn/SingIn</a
-    >
-    } @if (authService.currentUserSignal() !== null) {
-    <a
-      class="website_font_style"
-      [routerLink]="['/profile']"
-      routerLinkActive="text-white"
-      >Profile</a
-    >
-    <a
-      class="website_font_style"
-      [routerLink]="['/messagerie']"
-      routerLinkActive="text-white"
-      >Messagerie</a
-    >
-    }
+    <nav>
+        <a
+            class="website_font_style"
+            [routerLink]="['/']"
+            routerLinkActive="text-white"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Acceuil</a
+        >
 
-    <a
-      class="website_font_style"
-      [routerLink]="['/articles']"
-      routerLinkActive="text-white"
-      >articles</a
-    >
-  </nav>
+        @if (authService.currentUserSignal() === null) {
+            <a
+                class="website_font_style"
+                [routerLink]="['/auth']"
+                routerLinkActive="text-white"
+                >Connexion / Inscription</a
+            >
+        } 
+        
+        @if (authService.currentUserSignal() !== null) {
+            <a
+                class="website_font_style"
+                [routerLink]="['/profile']"
+                routerLinkActive="text-white"
+                >Profile</a
+            >
+            
+            <a
+                class="website_font_style"
+                [routerLink]="['/messagerie']"
+                routerLinkActive="text-white"
+                >Messagerie</a
+            >
+        }
+
+        <a
+            class="website_font_style"
+            [routerLink]="['/articles']"
+            routerLinkActive="text-white"
+            >Articles</a
+        >
+    </nav>
 </header>
 <router-outlet></router-outlet>
