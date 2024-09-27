@@ -10,6 +10,31 @@
       <button (click)="toggleModal()">Éditer mon profil</button>
     </div>
   </div>
+  <div>
+    <h2>Mes amis</h2>
+    <ul class="friends-list">
+      <li *ngFor="let user of userFriends">
+        {{ user.username }}
+        <button class="delete-friend" (click)="removeFriend(user.id)">
+          delete friend
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h2>Tous les utilisateurs</h2>
+    <ul class="friends-list">
+      <li *ngFor="let user of allUsers$ | async">
+        {{ user.username }}
+        <button
+          *ngIf="!friendsIds.includes(user.id)"
+          (click)="addFriend(user.id)"
+        >
+          Add to friends
+        </button>
+      </li>
+    </ul>
+  </div>
 </div>
 <div *ngIf="modalOpen" class="edit-profile-modal">
   <div class="modal-content">

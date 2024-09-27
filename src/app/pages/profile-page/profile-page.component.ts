@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,6 +19,13 @@ export class ProfilePageComponent {
   // On import le service AuthService
   authService = inject(AuthService);
 
+  // On import le service ProfileService
+  profileService = inject(ProfileService);
+  allUsers$ = this.profileService.allUsers$;
+  currentUser$ = this.profileService.currentUser$;
+  userFriends: any[] = [];
+  friendsIds: string[] = [];
+
   // user$ contient tout ce qui est stocké dans firebase pour sa compte
   user$ = this.authService.user$;
 
@@ -28,10 +36,16 @@ export class ProfilePageComponent {
   modalUsername: string = '';
   modalImageUrl: string = '';
 
-  // Articles du utilisateur courant qui seront stockés dans user$
-  // articles = [];
-
   constructor() {
+    this.profileService.allUsers$.subscribe((users) => {
+      this.profileService.currentUser$.subscribe((user) => {
+        if (user && user.friends) {
+          this.userFriends = users.filter((u) => user.friends.includes(u.id));
+          this.friendsIds = user.friends;
+        }
+      });
+    });
+
     // On subscribe à user$ pour récupérer les données de l'utilisateur courant
     this.user$.subscribe((user: any) => {
       if (user) {
@@ -78,5 +92,30 @@ export class ProfilePageComponent {
   logout() {
     // On déconnecte l'utilisateur avec la méthode logout du service AuthService
     this.authService.logout();
+  }
+
+  addFriend(id: string) {
+    if (id) {
+      this.profileService.addFriend(id).subscribe({
+        next: () => {
+          console.log('friend add successfully');
+        },
+        error: (error) => {
+          console.error('Error adding friend:', error);
+        },
+      });
+    }
+  }
+  removeFriend(id: string) {
+    if (id) {
+      this.profileService.removeFriend(id).subscribe({
+        next: () => {
+          console.log('friend delete successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting friend:', error);
+        },
+      });
+    }
   }
 }
