@@ -17,6 +17,8 @@ export class ArticlesPageComponent {
   valuesArticle:any = [];
   values:any = [];
   isHovered:boolean = false;
+  allArticles: any[] = [];
+
   // var form
   id:number = 0;
   title:string = '';
@@ -26,6 +28,9 @@ export class ArticlesPageComponent {
   online:boolean = false;
 
   constructor(private articles: ArticleServiceService){
+    this.articles.getArticles().subscribe((allArticles) => {
+      this.allArticles = allArticles;
+    });
     effect(() => {
       this.list_articles = this.articles.getArticles();
     })

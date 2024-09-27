@@ -1,4 +1,8 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+
+
 interface Articles {
   id:number,
   title:string,
@@ -13,8 +17,9 @@ interface Articles {
   providedIn: 'root'
 })
 export class ArticleServiceService {
-  // articleSelected = signal<any>([]);
+  private firestore = inject(AngularFirestore);
   articleSelected:any = [];
+
   public articles = signal<Articles[]> (
   [
       {
@@ -86,8 +91,9 @@ export class ArticleServiceService {
       }
   ])
   // Get all articles
-  getArticles(){
-    return this.articles();
+  
+  getArticles(): Observable<any>{
+    return this.firestore.collection('articles').get();
   }
   // Get one article
   getArticle(id:number){
