@@ -2,9 +2,14 @@
 
 // example de interface pour les articles
 export interface ArticleInterface {
-  title: string;
-  description: string;
-  author: string;
+  id:number,
+  title:string,
+  subtitle:string,
+  description:string,
+  content:string,
+  authorName:string,
+  authorId:number,
+  online:boolean
 }
 
 export interface UserInterface {

@@ -2,6 +2,8 @@ import { Component, effect } from '@angular/core';
 import { ArticleServiceService } from '../../article-service.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { Observable } from 'rxjs';
+import { ArticleInterface } from '../../types';
 
 @Component({
   selector: 'app-articles-page',
@@ -17,7 +19,7 @@ export class ArticlesPageComponent {
   valuesArticle:any = [];
   values:any = [];
   isHovered:boolean = false;
-  allArticles: any[] = [];
+  allArticles:any[] = [];
 
   // var form
   id:number = 0;
@@ -27,13 +29,11 @@ export class ArticlesPageComponent {
   content:string = '';
   online:boolean = false;
 
-  constructor(private articles: ArticleServiceService){
+  constructor(private articles: ArticleServiceService){}
+  ngOnInit(): void {
     this.articles.getArticles().subscribe((allArticles) => {
       this.allArticles = allArticles;
     });
-    effect(() => {
-      this.list_articles = this.articles.getArticles();
-    })
   }
   editArticle(id:number){
     this.valuesArticle = this.articles.getArticle(id);  

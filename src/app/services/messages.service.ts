@@ -1,35 +1,24 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  collection,
-  collectionData,
-  addDoc,
-  Firestore,
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { messageType } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private firestore: Firestore = inject(Firestore);
+  private firestore = inject(AngularFirestore);
 
-  messages$: Observable<messageType[]>;
-
-  constructor() {
-    const messagesCollector = collection(this.firestore, 'messages');
-    this.messages$ = collectionData(messagesCollector, {
-      idField: 'id',
-    }) as Observable<messageType[]>;
+  getMessages(): Observable<any[]> {
+    return this.firestore
+      .collection('messages', (ref) => ref.orderBy('timestamp'))
+      .valueChanges();
   }
 
   sendMessage(content: string, user: string) {
-    const messagesCollection = collection(this.firestore, 'messages');
-    return addDoc(messagesCollection, {
+    return this.firestore.collection('messages').add({
       content,
       user,
       sendAt: new Date(),
     });
   }
-
 }
