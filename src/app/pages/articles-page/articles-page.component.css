@@ -358,24 +358,24 @@ input:checked + .slider:before {
   font-size: 24px;
   font-weight: bold;
   color: white;
-  background-color: #007BFF;
+  background-color: orangered;
   border: none;
   border-radius: 50%;
   width: 60px;
   height: 60px;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 5px 15px orangered;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* Effet au survol (hover) */
 .plus-button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+  background-color: orangered;
+  box-shadow: 0 8px 20px orangered;
 }
 
 /* Effet lors du clic */
 .plus-button:active {
   transform: scale(0.95);
-  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 5px 10px rgb(255, 145, 0);
 }

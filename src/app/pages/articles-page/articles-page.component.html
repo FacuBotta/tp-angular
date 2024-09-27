@@ -83,14 +83,11 @@
       />
 
       <label for="online">L'article est en ligne:</label>
-      <input
-        type="checkbox"
-        id="online"
-        name="online"
-        [value]="online"
-        [(ngModel)]="online"
-      />
-      {{ userId }}{{ userName }}
+      <label for="article-online">Statut en Ligne</label>
+      <label id="article-online" class="switch">
+        <input type="checkbox" name="online" [(ngModel)]="online" />
+        <span class="slider round"></span>
+      </label>
       <button type="submit" class="submit-button" (click)="addArticles()">
         Ajouter l'article
       </button>
@@ -209,7 +206,7 @@
         <input type="checkbox" name="online" [(ngModel)]="online" />
         <span class="slider round"></span>
       </label>
-      <button type="submit">Sauvegarder</button>
+      <button type="submit" (click)="save(id)">Sauvegarder</button>
     </form>
   </div>
 </div>

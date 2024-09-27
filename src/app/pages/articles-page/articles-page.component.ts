@@ -26,10 +26,12 @@ export class ArticlesPageComponent implements OnInit{
   isHovered:boolean = false;
   articles$: Observable<ArticleInterface[]>;
   articles: ArticleInterface[] = [];
+  article:any;
   // get current user
   currentUser$ = this.profileService.currentUser$;
   userId:string = '';
   userName:string = '';
+  message:string = '';
 
   // var form
   id:number = 0;
@@ -63,19 +65,34 @@ export class ArticlesPageComponent implements OnInit{
     });
   }
   editArticle(id:number){
-    this.valuesArticle =  this.articlesService.get(id);      
-    // Affect values
-    this.id = this.valuesArticle.id
-    this.title = this.valuesArticle.title;
-    this.subtitle = this.valuesArticle.subtitle;
-    this.description = this.valuesArticle.description;
-    this.content = this.valuesArticle.content;
-    this.online = this.valuesArticle.online;
-    console.log(this.valuesArticle);
+    this.article = this.articlesService.get(id).subscribe(
+      (data:any) => {
+        this.valuesArticle = data;
+        this.id = id;
+        this.title = this.valuesArticle.title;
+        this.subtitle = this.valuesArticle.subtitle;
+        this.description = this.valuesArticle.description;
+        this.content = this.valuesArticle.content;
+        this.online = this.valuesArticle.online;    
+        console.log(this.online);
 
+      }
+    );
+    
+    // Affect values
   }
-  // save(id:number){
-  //   this.values = [{id : this.id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
-  //   this.articles.updateArticle(id, this.values[0])
-  // }
+  save(id:number){
+    console.log(id);
+    
+    this.values = [{id : id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
+    this.articlesService.update(id, this.values[0]).subscribe({
+      next: () => {
+        console.error('good');
+         
+      },
+      error: () =>{
+        console.error('wrong')
+      }
+    })
+  }
 }
