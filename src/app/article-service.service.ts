@@ -115,18 +115,18 @@ export class ArticleServiceService {
   async get(id:number){
     const articleIdString = id.toString();
     this.articles$.pipe(
-      map( article => (arti:any) => {
-        if(arti.id == id){
-          const articleDocRef = doc(collectionData, articleIdString); 
-          const articleSnapshot = await getDoc(articleDocRef);
+      // map( article => (arti:any) => {
+      //   if(arti.id == id){
+      //     const articleDocRef = doc(collectionData, articleIdString); 
+      //     const articleSnapshot = await getDoc(articleDocRef);
   
-          if (articleSnapshot.exists()) {
-            return articleSnapshot.data(); 
-          } else {
-            throw new Error('Aucun article trouvé avec cet ID');
-          }
-        }
-      })
+      //     if (articleSnapshot.exists()) {
+      //       return articleSnapshot.data(); 
+      //     } else {
+      //       throw new Error('Aucun article trouvé avec cet ID');
+      //     }
+      //   }
+      // })
     )        
   }
   // Save an article
