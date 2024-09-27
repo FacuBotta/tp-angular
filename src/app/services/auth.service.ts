@@ -73,4 +73,26 @@ export class AuthService {
     });
     return from(promise);
   }
+  // Cette méthode permet de editer le profil de l'utilisateur
+  editProfile(username: string, imageUrl: string): Observable<void> {
+    const user = this.auth.currentUser;
+    if (!user) {
+      throw new Error('No user is currently logged in.');
+    }
+    const promise = updateProfile(user, {
+      displayName: username,
+      photoURL: imageUrl,
+    })
+      .then(() => {
+        this.currentUserSignal.set({
+          email: user.email!,
+          username,
+        });
+      })
+      .catch((error) => {
+        throw error;
+      });
+
+    return from(promise);
+  }
 }
