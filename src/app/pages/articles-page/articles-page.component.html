@@ -47,10 +47,7 @@
       </div>
       <div class="main_actions">
         <div>
-          <i
-            class="fa-solid fa-pen"
-            (click)="[(displayModal = !displayModal), editArticle(i)]"
-          ></i>
+          <i class="fa-solid fa-pen"></i>
           <i class="fa-solid fa-trash"></i>
         </div>
       </div>
@@ -113,9 +110,7 @@
         <input type="checkbox" name="online" [(ngModel)]="online" />
         <span class="slider round"></span>
       </label>
-      <button type="submit" (click)="save(valuesArticle.id)">
-        Sauvegarder
-      </button>
+      <button type="submit">Sauvegarder</button>
     </form>
   </div>
 </div>
