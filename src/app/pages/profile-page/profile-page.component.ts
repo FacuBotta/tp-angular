@@ -137,7 +137,7 @@ export class ProfilePageComponent {
   }
 
   editArticle(id: number) {
-    this.valuesArticle = this.articlesService.getArticle(id);
+    // this.valuesArticle = this.articlesService.getArticle(id);
     // Affect values
     this.id = this.valuesArticle.id;
     this.title = this.valuesArticle.title;
@@ -157,6 +157,6 @@ export class ProfilePageComponent {
         online: this.online,
       },
     ];
-    this.articlesService.updateArticle(id, this.values[0]);
+    // this.articlesService.updateArticle(id, this.values[0]);
   }
 }

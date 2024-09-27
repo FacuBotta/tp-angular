@@ -1,122 +1,269 @@
-<div id="div_page_article">
-    <div class="container_title website_font_style">
-        <h1 class="main-title">{{ pageTitle }}</h1>
+<div class="container_title">
+  <h1 class="main-title">{{ pageTitle }}</h1>
+</div>
+<button class="plus-button" (click)="displayAddModal = !displayAddModal">
+  +
+</button>
+<div
+  id="updateModal"
+  class="addArticle"
+  [ngClass]="[!displayAddModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <div class="header">
+      <div>
+        <h2>Ajouter un article</h2>
+      </div>
+      <div class="close-btn">
+        <i
+          class="fa-solid fa-xmark"
+          (click)="displayAddModal = !displayAddModal"
+        ></i>
+      </div>
     </div>
+    <form class="article-form" action="#" method="POST">
+      <label for="title">Titre:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        [(ngModel)]="title"
+        [value]="title"
+      />
 
-    <div class="container website_font_style">
-        <div class="card" *ngFor="let article of list_articles; let i = index">
-            <h2>{{ article.title }}</h2>
-            <h3>{{ article.subtitle }}</h3>
-            <p>{{ article.content }}</p>
+      <label for="subtitle">Sous-titre:</label>
+      <input
+        type="text"
+        id="subtitle"
+        name="subtitle"
+        required
+        [(ngModel)]="subtitle"
+        [value]="subtitle"
+      />
 
-            <div class="actions">
-                <div class="socials">
-                    <div>
-                        <p>
-                            Author :
-                            <span class="followers"
-                            >{{ article.authorName }} - 50 followers</span
-                            >
-                        </p>
-                    </div>
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="3"
+        required
+        [(ngModel)]="description"
+        [placeholder]="description"
+      ></textarea>
 
-                    <div class="icons">
-                        <div><i class="fa-solid fa-heart"></i><span>10</span></div>
+      <label for="content">Contenu:</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="6"
+        required
+        [(ngModel)]="content"
+        [placeholder]="content"
+      ></textarea>
 
-                        <div
-                            [ngClass]="{
-                            visible: article.online,
-                            invisible: !article.online
-                            }"
-                        >
-                            <span>Visibilité </span
-                            ><i
-                            class="fa-solid"
-                            [ngClass]="{
-                                'fa-eye': article.online,
-                                'fa-eye-slash': !article.online
-                            }"
-                            ></i>
-                        </div>
-                    </div>
-                </div>
+      <label for="authorName">Nom de l'auteur:</label>
+      <input
+        type="text"
+        id="authorName"
+        name="authorName"
+        required
+        [(ngModel)]="userName"
+        [value]="userName"
+      />
 
-                <div class="main_actions">
-                    <div>
-                        <i
-                            class="fa-solid fa-pen"
-                            (click)="[(displayModal = !displayModal), editArticle(i)]"
-                        ></i>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
-                </div>
-            </div>
+      <label for="authorId">ID de l'auteur:</label>
+      <input
+        type="number"
+        id="authorId"
+        name="authorId"
+        readonly
+        [value]="userId"
+        [(ngModel)]="userId"
+      />
+
+      <label for="online">L'article est en ligne:</label>
+      <label for="article-online">Statut en Ligne</label>
+      <label id="article-online" class="switch">
+        <input type="checkbox" name="online" [(ngModel)]="online" />
+        <span class="slider round"></span>
+      </label>
+      <button type="submit" class="submit-button" (click)="addArticles()">
+        Ajouter l'article
+      </button>
+    </form>
+  </div>
+</div>
+<div class="container">
+  <div class="card" *ngFor="let article of articles; let i = index">
+    <h2>{{ article.title }}</h2>
+    <h3>{{ article.subtitle }}</h3>
+    <p>{{ article.content }}</p>
+    <div class="actions">
+      <div class="socials">
+        <div>
+          <p>
+            Author :
+            <span class="followers">{{ userName }} - 50 followers</span>
+          </p>
         </div>
+        <div class="icons">
+          <div>
+            <i
+              class="fa-solid fa-heart"
+              (mouseover)="isHovered = true"
+              (mouseout)="isHovered = false"
+              [ngClass]="{
+                'hovered fa-beat': isHovered,
+              }"
+            ></i
+            ><span style="margin-left: 5px">10</span>
+          </div>
+          <div
+            [ngClass]="{
+              visible: article.online,
+              invisible: !article.online
+            }"
+          >
+            <span>Visibilité </span
+            ><i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-eye': article.online,
+                'fa-eye-slash': !article.online
+              }"
+            ></i>
+          </div>
+        </div>
+      </div>
+      <div class="main_actions">
+        <div>
+          <i
+            class="fa-solid fa-pen"
+            (click)="[editArticle(article.id), (displayModal = !displayModal)]"
+          ></i>
+          <i
+            class="fa-solid fa-trash"
+            (click)="displayConfirmModal = !displayConfirmModal"
+          ></i>
+        </div>
+      </div>
     </div>
-
-    <div
-    id="editModal"
-    class="modal"
-    [ngClass]="[!displayModal ? 'hidden' : 'display']"
+  </div>
+</div>
+<!-- MODAL CONFIRM -->
+<div
+  id="confirmModal"
+  class="modalSupp"
+  [ngClass]="[!displayConfirmModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <span
+      class="close-btn"
+      id="closeModal"
+      (click)="displayConfirmModal = !displayConfirmModal"
+      >&times;</span
     >
-        <div class="modal-content">
-            <div class="header">
-                <div>
-                    <h2>Modifier l'Article</h2>
-                </div>
-                <div class="close-btn">
-                    <i class="fa-solid fa-xmark" (click)="displayModal = !displayModal"></i>
-                </div>
-            </div>
+    <h2>Confirmer la suppression</h2>
+    <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
+    <div class="modal-actions">
+      <button
+        id="confirmDeleteBtn"
+        class="confirm-btn"
+        (click)="
+          [
+            deleteArticle(article.id),
+            (displayConfirmModal = !displayConfirmModal)
+          ]
+        "
+      >
+        Confirmer
+      </button>
+      <button
+        id="cancelDeleteBtn"
+        class="cancel-btn"
+        (click)="displayConfirmModal = !displayConfirmModal"
+      >
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>
+<!-- EDIT MODAL -->
+<div
+  id="editModal"
+  class="modal"
+  [ngClass]="[!displayModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <div class="header">
+      <div>
+        <h2>Modifier l'Article</h2>
+      </div>
+      <div class="close-btn">
+        <i class="fa-solid fa-xmark" (click)="displayModal = !displayModal"></i>
+      </div>
+    </div>
+    <form id="editArticleForm">
+      <p class="message-box" *ngIf="success != ''">{{ success }}</p>
+      <p class="message-box" *ngIf="error != ''">{{ error }}</p>
+      <label for="article-id">ID de l'Article</label>
+      <input
+        type="text"
+        id="article-id"
+        name="id"
+        [value]="valuesArticle.id"
+        [(ngModel)]="id"
+        readonly
+      />
 
-            <form id="editArticleForm">
+      <div
+        id="editModal"
+        class="modal"
+        [ngClass]="[!displayModal ? 'hidden' : 'display']"
+      >
+        <div class="modal-content">
+          <div class="header">
+            <div>
+              <h2>Modifier l'Article</h2>
+            </div>
+            <div class="close-btn">
+              <i
+                class="fa-solid fa-xmark"
+                (click)="displayModal = !displayModal"
+              ></i>
+            </div>
+          </div>
+
+          <form id="editArticleForm">
             <label for="article-id">ID de l'Article</label>
             <input
-                type="text"
-                id="article-id"
-                name="id"
-                [value]="valuesArticle.id"
-                [(ngModel)]="id"
-                readonly
+              type="text"
+              id="article-id"
+              name="id"
+              [value]="valuesArticle.id"
+              [(ngModel)]="id"
+              readonly
             />
 
             <label for="article-title">Titre</label>
             <input
-                type="text"
-                id="article-title"
-                name="title"
-                [(ngModel)]="title"
-                [value]="valuesArticle.title"
+              type="text"
+              id="article-title"
+              name="title"
+              [(ngModel)]="title"
+              [value]="valuesArticle.title"
             />
-
-            <label for="article-subtitle">Sous-titre</label>
-            <input
-                type="text"
-                id="article-subtitle"
-                name="subtitle"
-                [(ngModel)]="subtitle"
-                [value]="valuesArticle.subtitle"
-            />
-
-            <label for="article-content">Contenu</label>
-            <textarea
-                id="article-content"
-                name="content"
-                [(ngModel)]="content"
-                [placeholder]="valuesArticle.content"
-            ></textarea>
 
             <label for="article-online">Statut en Ligne</label>
-
             <label id="article-online" class="switch">
-                <input type="checkbox" name="online" [(ngModel)]="online" />
-                <span class="slider round"></span>
+              <input type="checkbox" name="online" [(ngModel)]="online" />
+              <span class="slider round"></span>
             </label>
-            
-            <button type="submit" (click)="save(valuesArticle.id)">
-                Sauvegarder
-            </button>
-            </form>
+            <button type="submit" (click)="save(id)">Sauvegarder</button>
+          </form>
         </div>
-    </div>
+      </div>
+    </form>
+  </div>
 </div>
