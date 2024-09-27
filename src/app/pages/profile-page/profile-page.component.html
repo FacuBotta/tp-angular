@@ -21,6 +21,58 @@
       </li>
     </ul>
   </div>
+
+  <div class="container">
+    <h2>Mes articles</h2>
+    <div class="card" *ngFor="let article of userArticles; let i = index">
+      <h2>{{ article.title }}</h2>
+      <h3>{{ article.subtitle }}</h3>
+      <p>{{ article.content }}</p>
+      <div class="actions">
+        <div class="socials">
+          <div>
+            <p>
+              Author :
+              <span class="followers"
+                >{{ article.authorName }} - 50 followers</span
+              >
+            </p>
+          </div>
+          <div class="icons">
+            <div><i class="fa-solid fa-heart"></i><span>10</span></div>
+            <div
+              [ngClass]="{
+                visible: article.online,
+                invisible: !article.online
+              }"
+            >
+              <span>Visibilité </span
+              ><i
+                class="fa-solid"
+                [ngClass]="{
+                  'fa-eye': article.online,
+                  'fa-eye-slash': !article.online
+                }"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="main_actions">
+          <div>
+            <i
+              class="fa-solid fa-pen"
+              (click)="[(articleModal = !articleModal), editArticle(i)]"
+            ></i>
+            <i class="fa-solid fa-trash"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noArticles>
+      <p>Pas d'articles pour le moment</p>
+    </ng-template>
+  </div>
+
   <div>
     <h2>Tous les utilisateurs</h2>
     <ul class="friends-list">
@@ -36,6 +88,7 @@
     </ul>
   </div>
 </div>
+
 <div *ngIf="modalOpen" class="edit-profile-modal">
   <div class="modal-content">
     <h2>Éditer mon profil</h2>

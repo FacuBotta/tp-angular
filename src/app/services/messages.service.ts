@@ -29,6 +29,12 @@ export class ChatService {
     }) as Observable<messageType[]>;
   }
 
+  getMessageById(id: string): Observable<any> {
+    const messagesCollection = collection(this.firestore, 'messages');
+    const q = query(messagesCollection, where('id', '==', id));
+    return collectionData(q, { idField: 'id' });
+  }
+
   createConversation(user: string, participants: string[]) {
     const messagesCollection = collection(this.firestore, 'conversations');
     return addDoc(messagesCollection, {

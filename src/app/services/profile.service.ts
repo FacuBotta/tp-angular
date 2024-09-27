@@ -9,7 +9,9 @@ import {
   doc,
   docData,
   Firestore,
+  query,
   updateDoc,
+  where,
 } from '@angular/fire/firestore';
 import { from, Observable, of, switchMap, take } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -24,6 +26,7 @@ export class ProfileService {
   user$: Observable<User | null> = this.authService.user$;
 
   currentUser$: Observable<any | null>;
+  userArticles$: Observable<any[]>;
 
   allUsers$: Observable<any[]>;
 
@@ -32,6 +35,22 @@ export class ProfileService {
     this.allUsers$ = collectionData(usersCollection, {
       idField: 'id',
     }) as Observable<any[]>;
+    this.userArticles$ = this.user$.pipe(
+      switchMap((user) => {
+        if (user && user.uid) {
+          // Referencia a la colección 'articles'
+          const articlesRef = collection(this.firestore, 'articles');
+          // Filtramos los artículos por el uid del usuario
+          const userArticlesQuery = query(
+            articlesRef,
+            where('userId', '==', user.uid)
+          );
+          return collectionData(userArticlesQuery, { idField: 'id' });
+        } else {
+          return of([]); // Si no hay usuario logueado, retorna un array vacío
+        }
+      })
+    );
 
     this.currentUser$ = this.user$.pipe(
       switchMap((user) => {
