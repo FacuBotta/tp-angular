@@ -16,8 +16,9 @@ export class ArticlesPageComponent {
   displayModal:boolean = false;
   valuesArticle:any = [];
   values:any = [];
+  isHovered:boolean = false;
   // var form
-  id:string = '';
+  id:number = 0;
   title:string = '';
   subtitle:string = '';
   description:string = '';

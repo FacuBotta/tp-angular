@@ -6,8 +6,13 @@
       [routerLinkActiveOptions]="{ exact: true }"
       >Home</a
     >
-    <a [routerLink]="['/profile']" routerLinkActive="text-white">Dashboard</a>
-    <a [routerLink]="['/articles']" routerLinkActive="text-white">Articles</a>
+    @if (authService.currentUserSignal() === null) {
+    <a [routerLink]="['/auth']" routerLinkActive="text-white">LogIn/SingIn</a>
+    } @if (authService.currentUserSignal() !== null) {
+    <a [routerLink]="['/profile']" routerLinkActive="text-white">Profile</a>
+    }
+
+    <a [routerLink]="['/articles']" routerLinkActive="text-white">articles</a>
   </nav>
 </header>
 <router-outlet></router-outlet>

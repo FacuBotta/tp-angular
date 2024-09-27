@@ -17,7 +17,17 @@
           </p>
         </div>
         <div class="icons">
-          <div><i class="fa-solid fa-heart"></i><span>10</span></div>
+          <div>
+            <i
+              class="fa-solid fa-heart"
+              (mouseover)="isHovered = true"
+              (mouseout)="isHovered = false"
+              [ngClass]="{
+                'hovered fa-beat': isHovered,
+              }"
+            ></i
+            ><span style="margin-left: 5px">10</span>
+          </div>
           <div
             [ngClass]="{
               visible: article.online,
