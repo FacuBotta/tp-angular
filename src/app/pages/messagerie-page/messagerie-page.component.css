@@ -1,0 +1,126 @@
+/* Estilos generales */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 400px;
+  height: 600px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #4caf50;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* Mensaje individual */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Nombre del usuario */
+.message strong {
+  color: #333;
+  font-size: 14px;
+}
+
+/* Contenido del mensaje */
+.message p {
+  font-size: 16px;
+  color: #555;
+  margin: 5px 0 0;
+}
+
+/* Estilo para la fecha */
+.message .date {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+  display: block;
+  text-align: right;
+}
+
+/* Input para enviar mensajes */
+.message-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message-input input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.message-input input[type="text"]:focus {
+  border-color: #4caf50;
+}
+
+.message-input button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.message-input button:hover {
+  background-color: #45a049;
+}
+
+/* Animación simple de aparición de mensajes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll en la ventana de mensajes */
+.messages {
+  max-height: 450px;
+  overflow-y: scroll;
+}
+
+.messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}

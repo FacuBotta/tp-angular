@@ -1,9 +1,14 @@
 <div class="chat-container">
-  <h2>Chat en tiempo real</h2>
+  <h2>messages 💬</h2>
 
   <div class="messages">
     <div *ngFor="let message of messages" class="message">
-      <strong>{{ message.user }}:</strong> {{ message.content }}
+      <strong>{{ message.user }}:</strong> at:
+      <!-- {{ message.sendAt?.toDate() | date : "short" }} -->
+      <br />
+      <p>
+        {{ message.content }}
+      </p>
     </div>
   </div>
 
