@@ -174,3 +174,51 @@
     font-size: 14px;
   }
 }
+
+.create-conversation-modal {
+  position: fixed; /* Mantiene el modal centrado en la pantalla */
+  top: 50%; /* Centrado verticalmente */
+  left: 50%; /* Centrado horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta la posición del modal */
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+  width: 300px; /* Ancho fijo del modal */
+  max-width: 90%; /* Máximo ancho para pantallas pequeñas */
+  animation: fadeIn 0.3s ease; /* Animación de aparición */
+}
+
+/* Estilo para el select de participantes */
+.participants-select {
+  width: 100%; /* Ocupa el ancho total del modal */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Borde gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  margin-bottom: 15px; /* Espaciado inferior */
+  background-color: #f9f9f9; /* Fondo del select */
+  outline: none; /* Sin borde al enfocar */
+  transition: border-color 0.2s; /* Transición de borde */
+}
+
+.participants-select:focus {
+  border-color: #4caf50; /* Cambia el color del borde al enfocar */
+}
+
+/* Botones dentro del modal */
+.modal-btn {
+  width: 100%; /* Ocupa el ancho total */
+  padding: 10px; /* Espaciado interno */
+  background-color: #4caf50; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar */
+  transition: background-color 0.3s; /* Transición de fondo */
+  margin-top: 10px; /* Espaciado superior */
+}
+
+.modal-btn:hover {
+  background-color: #45a049; /* Color al pasar el mouse */
+}

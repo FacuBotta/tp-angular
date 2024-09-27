@@ -1,40 +1,70 @@
-<div class="chat-container">
-  <h2>messages 💬</h2>
-  <button class="button-clear-messages" (click)="clearMessages()">
-    Clear messages
-  </button>
-  <div class="messages">
-    <div *ngFor="let message of messages" class="message">
-      <strong>{{ message.user }}:</strong> at:
-      <!-- {{ message.sendAt?.toDate() | date : "short" }} -->
-      <br />
-      <p>
-        {{ message.content }}
-      </p>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+/>
+<div class="chat-app">
+  <div class="conversations-list">
+    <h2>Mes conversations 💬</h2>
+    <div *ngFor="let conversation of conversations$ | async">
+      <div class="conversation-mini-card">
+        <div (click)="currentConversation.set(conversation)">
+          <h3>{{ conversation.participants.length }} participants</h3>
+          <p>
+            Cree le : {{ conversation.createdAt.toDate() | date : "short" }}
+          </p>
+        </div>
+        <span
+          (click)="deleteConversation(conversation.id)"
+          class="material-symbols-outlined"
+        >
+          delete
+        </span>
+      </div>
+    </div>
+    <button *ngIf="!modalOpen" (click)="toggleModal()" class="create-btn">
+      Creer une conversation 🚀
+    </button>
+    <div class="create-conversation-modal" *ngIf="modalOpen">
+      <select multiple [(ngModel)]="participants" class="participants-select">
+        <option *ngFor="let user of userFriends" [value]="user.id">
+          {{ user.username }}
+        </option>
+      </select>
+      <button class="modal-btn" (click)="createConversation()">Ok 🚀</button>
+      <button (click)="toggleModal()" class="modal-btn">Annuler 😒</button>
     </div>
   </div>
 
-  <div class="message-input">
-    <input
-      type="text"
-      placeholder="Ton message..."
-      [(ngModel)]="newMessage"
-      (keyup.enter)="
-        sendMessage(
-          newMessage,
-          authService.currentUserSignal()?.username || 'No name user'
-        )
-      "
-    />
-    <button
-      (click)="
-        sendMessage(
-          newMessage,
-          authService.currentUserSignal()?.username || 'No name user'
-        )
-      "
-    >
-      Envoyer 🚀
-    </button>
+  <div *ngIf="currentConversation" class="chat-container">
+    <div class="messages">
+      <div *ngFor="let message of messages$ | async" class="message">
+        <strong>{{ message.user }}:</strong>
+        <p>{{ message.content }}</p>
+      </div>
+    </div>
+
+    <div class="message-input">
+      <input
+        type="text"
+        placeholder="Tu mensaje..."
+        [(ngModel)]="newMessage"
+        (keyup.enter)="
+          sendMessage(
+            newMessage,
+            authService.currentUserSignal()?.username || 'No name user'
+          )
+        "
+      />
+      <button
+        (click)="
+          sendMessage(
+            newMessage,
+            authService.currentUserSignal()?.username || 'No name user'
+          )
+        "
+      >
+        Envoyer 🚀
+      </button>
+    </div>
   </div>
 </div>

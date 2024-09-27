@@ -1,15 +1,28 @@
 /* Estilos generales */
-.chat-container {
+.chat-app {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 400px;
   height: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px;
   background-color: #f9f9f9;
+}
+
+.conversations-list {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px 0 0 10px;
+}
+
+.chat-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 h2 {
@@ -17,6 +30,41 @@ h2 {
   font-size: 24px;
   margin-bottom: 10px;
   color: #4caf50;
+}
+
+.conversation-mini-card {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.conversation-mini-card:hover {
+  background-color: #f1f1f1;
+}
+
+.create-btn {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-btn:hover {
+  background-color: #45a049;
+}
+
+.create-conversation-modal {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 .messages {
@@ -27,9 +75,9 @@ h2 {
   background-color: #fff;
   border-radius: 10px;
   margin-bottom: 10px;
+  max-height: 450px;
 }
 
-/* Mensaje individual */
 .message {
   margin-bottom: 10px;
   padding: 10px;
@@ -40,29 +88,17 @@ h2 {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Nombre del usuario */
 .message strong {
   color: #333;
   font-size: 14px;
 }
 
-/* Contenido del mensaje */
 .message p {
   font-size: 16px;
   color: #555;
   margin: 5px 0 0;
 }
 
-/* Estilo para la fecha */
-.message .date {
-  font-size: 12px;
-  color: #999;
-  margin-top: 5px;
-  display: block;
-  text-align: right;
-}
-
-/* Input para enviar mensajes */
 .message-input {
   display: flex;
   align-items: center;
@@ -98,7 +134,6 @@ h2 {
   background-color: #45a049;
 }
 
-/* Animación simple de aparición de mensajes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -111,11 +146,6 @@ h2 {
 }
 
 /* Scroll en la ventana de mensajes */
-.messages {
-  max-height: 450px;
-  overflow-y: scroll;
-}
-
 .messages::-webkit-scrollbar {
   width: 8px;
 }
@@ -123,4 +153,8 @@ h2 {
 .messages::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 4px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background-color: #bbb;
 }
