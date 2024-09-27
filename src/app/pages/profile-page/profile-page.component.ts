@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../services/profile.service';
+import { ArticleServiceService } from '../../article-service.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,9 +16,19 @@ import { ProfileService } from '../../services/profile.service';
 export class ProfilePageComponent {
   router = inject(Router);
   modalOpen: boolean = false;
-
+  articleModal: boolean = false;
   // On import le service AuthService
   authService = inject(AuthService);
+  articlesService = inject(ArticleServiceService);
+  valuesArticle: any = [];
+  // var form
+  id: string = '';
+  title: string = '';
+  subtitle: string = '';
+  description: string = '';
+  content: string = '';
+  online: boolean = false;
+  values: any = [];
 
   // On import le service ProfileService
   profileService = inject(ProfileService);
@@ -25,6 +36,8 @@ export class ProfilePageComponent {
   currentUser$ = this.profileService.currentUser$;
   userFriends: any[] = [];
   friendsIds: string[] = [];
+
+  userArticles: any[] = [];
 
   // user$ contient tout ce qui est stocké dans firebase pour sa compte
   user$ = this.authService.user$;
@@ -42,10 +55,14 @@ export class ProfilePageComponent {
         if (user && user.friends) {
           this.userFriends = users.filter((u) => user.friends.includes(u.id));
           this.friendsIds = user.friends;
+          console.log(user);
         }
       });
     });
 
+    this.profileService.userArticles$.subscribe((articles) => {
+      this.userArticles = articles;
+    });
     // On subscribe à user$ pour récupérer les données de l'utilisateur courant
     this.user$.subscribe((user: any) => {
       if (user) {
@@ -117,5 +134,29 @@ export class ProfilePageComponent {
         },
       });
     }
+  }
+
+  editArticle(id: number) {
+    this.valuesArticle = this.articlesService.getArticle(id);
+    // Affect values
+    this.id = this.valuesArticle.id;
+    this.title = this.valuesArticle.title;
+    this.subtitle = this.valuesArticle.subtitle;
+    this.description = this.valuesArticle.description;
+    this.content = this.valuesArticle.content;
+    this.online = this.valuesArticle.online;
+  }
+  save(id: number) {
+    this.values = [
+      {
+        id: this.id,
+        title: this.title,
+        subtitle: this.subtitle,
+        description: this.description,
+        content: this.content,
+        online: this.online,
+      },
+    ];
+    this.articlesService.updateArticle(id, this.values[0]);
   }
 }

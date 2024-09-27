@@ -1,4 +1,3 @@
-/* Estilos generales */
 .chat-app {
   display: flex;
   height: 600px;
@@ -76,16 +75,28 @@ h2 {
   border-radius: 10px;
   margin-bottom: 10px;
   max-height: 450px;
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #e6e6e6;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
+  width: 90%;
+}
+
+.message-me {
+  background-color: #b0ede2;
+  align-self: flex-start;
+}
+
+.message-other {
+  background-color: #f8d7da;
+  align-self: flex-end;
 }
 
 .message strong {
@@ -145,7 +156,6 @@ h2 {
   }
 }
 
-/* Scroll en la ventana de mensajes */
 .messages::-webkit-scrollbar {
   width: 8px;
 }

@@ -15,7 +15,7 @@ import { ArticleInterface } from './types';
 import { updateDoc } from 'firebase/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticleServiceService {
   articleSelected: any;
