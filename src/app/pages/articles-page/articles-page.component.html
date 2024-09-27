@@ -1,8 +1,104 @@
 <div class="container_title">
   <h1 class="main-title">{{ pageTitle }}</h1>
 </div>
+<button class="plus-button" (click)="displayAddModal = !displayAddModal">
+  +
+</button>
+<div
+  id="updateModal"
+  class="addArticle"
+  [ngClass]="[!displayAddModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <div class="header">
+      <div>
+        <h2>Ajouter un article</h2>
+      </div>
+      <div class="close-btn">
+        <i
+          class="fa-solid fa-xmark"
+          (click)="displayAddModal = !displayAddModal"
+        ></i>
+      </div>
+    </div>
+    <form class="article-form" action="#" method="POST">
+      <label for="title">Titre:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        [(ngModel)]="title"
+        [value]="title"
+      />
+
+      <label for="subtitle">Sous-titre:</label>
+      <input
+        type="text"
+        id="subtitle"
+        name="subtitle"
+        required
+        [(ngModel)]="subtitle"
+        [value]="subtitle"
+      />
+
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="3"
+        required
+        [(ngModel)]="description"
+        [placeholder]="description"
+      ></textarea>
+
+      <label for="content">Contenu:</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="6"
+        required
+        [(ngModel)]="content"
+        [placeholder]="content"
+      ></textarea>
+
+      <label for="authorName">Nom de l'auteur:</label>
+      <input
+        type="text"
+        id="authorName"
+        name="authorName"
+        required
+        [(ngModel)]="userName"
+        [value]="userName"
+      />
+
+      <label for="authorId">ID de l'auteur:</label>
+      <input
+        type="number"
+        id="authorId"
+        name="authorId"
+        readonly
+        [value]="userId"
+        [(ngModel)]="userId"
+      />
+
+      <label for="online">L'article est en ligne:</label>
+      <input
+        type="checkbox"
+        id="online"
+        name="online"
+        [value]="online"
+        [(ngModel)]="online"
+      />
+      {{ userId }}{{ userName }}
+      <button type="submit" class="submit-button" (click)="addArticles()">
+        Ajouter l'article
+      </button>
+    </form>
+  </div>
+</div>
 <div class="container">
-  <div class="card" *ngFor="let article of list_articles; let i = index">
+  <div class="card" *ngFor="let article of articles; let i = index">
     <h2>{{ article.title }}</h2>
     <h3>{{ article.subtitle }}</h3>
     <p>{{ article.content }}</p>
@@ -47,7 +143,10 @@
       </div>
       <div class="main_actions">
         <div>
-          <i class="fa-solid fa-pen"></i>
+          <i
+            class="fa-solid fa-pen"
+            (click)="[editArticle(article.id), (displayModal = !displayModal)]"
+          ></i>
           <i class="fa-solid fa-trash"></i>
         </div>
       </div>

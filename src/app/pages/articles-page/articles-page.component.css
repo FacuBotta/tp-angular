@@ -169,7 +169,18 @@
   .modal-content button:hover {
     background-color: #0056b3;
   }
-  
+  .addArticle{
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    justify-content: center;
+    align-items: center; 
+  }
   .modal {    
     justify-content: center;
     position: fixed;
@@ -332,4 +343,39 @@ input:checked + .slider:before {
 }
 .fa-heat.hovered{
   color: red;
+}
+
+/* BUTTON PLUS */
+.container_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style du bouton */
+.plus-button {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Effet au survol (hover) */
+.plus-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.6);
+}
+
+/* Effet lors du clic */
+.plus-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 5px 10px rgba(0, 123, 255, 0.4);
 }

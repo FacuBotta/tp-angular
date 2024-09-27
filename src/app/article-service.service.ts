@@ -7,11 +7,11 @@ import {
   getDocs,
   doc,
   Firestore,
+  getDoc,
+  docData,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ArticleInterface } from './types';
-import { get } from 'firebase/database';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +26,7 @@ export class ArticleServiceService {
     this.articles$ = collectionData(articlesCollector, {
       idField: 'id',
     }) as Observable<ArticleInterface[]>;
-    console.log(this.articles$);
-    
+    console.log(this.articles$);    
   }
   // public articles = signal<ArticleInterface[]> (
   // [
@@ -99,25 +98,51 @@ export class ArticleServiceService {
   //       online: false
   //     }
   // ])
-
+  add(title: string, subtitle: string, description: string, content: string, userName: string, userId: string, online: boolean) 
+  {
+    const articlesCollection = collection(this.firestore, 'articles');
+    return addDoc(articlesCollection, {
+    title,
+    subtitle,
+    description,
+    content,
+    userName,
+    userId,
+    online
+    });
+  }
   // Get one article
-  getArticle(id:number){
-    this.articleSelected = collection(this.firestore, 'articles');
-    return this.articleSelected 
+  async get(id:number){
+    const articleIdString = id.toString();
+    this.articles$.pipe(
+      map( article => (arti:any) => {
+        if(arti.id == id){
+          const articleDocRef = doc(collectionData, articleIdString); 
+          const articleSnapshot = await getDoc(articleDocRef);
+  
+          if (articleSnapshot.exists()) {
+            return articleSnapshot.data(); 
+          } else {
+            throw new Error('Aucun article trouvé avec cet ID');
+          }
+        }
+      })
+    )        
   }
   // Save an article
-  // updateArticle(id:number, articleArray:any){
-  //   this.articles.update( articles => 
-  //     articles.map( (article:any) => 
-  //       article.id === id ? { ...article, 
-  //         title: articleArray.title,
-  //         subtitle: articleArray.subtitle,
-  //         description: articleArray.description,
-  //         content: articleArray.content,
-  //         online: articleArray.online,
-  //       } : article
-  //     )
-  //   ) 
-  // }
+  update(id:number, articleArray:any){
+    // this
+    // this.articles.update( articles => 
+    //   articles.map( (article:any) => 
+    //     article.id === id ? { ...article, 
+    //       title: articleArray.title,
+    //       subtitle: articleArray.subtitle,
+    //       description: articleArray.description,
+    //       content: articleArray.content,
+    //       online: articleArray.online,
+    //     } : article
+    //   )
+    // ) 
+  }
 
 }

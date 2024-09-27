@@ -8,7 +8,7 @@ export interface ArticleInterface {
   description:string,
   content:string,
   authorName:string,
-  authorId:number,
+  authorId:string,
   online:boolean
 }
 
