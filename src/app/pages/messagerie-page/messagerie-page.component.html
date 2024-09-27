@@ -37,8 +37,16 @@
 
   <div *ngIf="currentConversation" class="chat-container">
     <div class="messages">
-      <div *ngFor="let message of messages$ | async" class="message">
-        <strong>{{ message.user }}:</strong>
+      <div
+        *ngFor="let message of messages$ | async"
+        class="message"
+        [ngClass]="
+          message.user === authService.currentUserSignal()?.username
+            ? 'message-me'
+            : 'message-other'
+        "
+      >
+        <strong>{{ message.user }}</strong>
         <p>{{ message.content }}</p>
       </div>
     </div>
