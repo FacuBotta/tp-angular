@@ -415,15 +415,16 @@ input:checked + .slider:before {
 
 /* Conteneur de filtre */
 .filter-container {
-  position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-left: 30px;
+  align-items: center
 }
 
 /* FILTER BTN */
 .filter-btn {
   background-color: orangered;
+  margin-right: 20px;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -440,7 +441,8 @@ input:checked + .slider:before {
 
 /* Select Filter */
 select {
-  display: none; /* Par défaut caché, affiché seulement au clic */
+  display: none;
+  position: absolute;
   width: 200px;
   padding: 10px;
   font-size: 16px;

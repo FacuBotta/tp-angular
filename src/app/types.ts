@@ -2,14 +2,15 @@
 
 // example de interface pour les articles
 export interface ArticleInterface {
-  id:number,
+  id:string,
   title:string,
   subtitle:string,
   description:string,
   content:string,
   authorName:string,
   authorId:string,
-  online:boolean
+  online:boolean,
+  like:number
 }
 
 export interface UserInterface {

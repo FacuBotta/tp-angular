@@ -34,15 +34,16 @@ export class ArticlesPageComponent {
   userName:string = '';
   success:string = '';
   error:string = '';
+  isClicked: any;
 
   // var form
-  id:number = 0;
+  id:string = '';
   title:string = '';
   subtitle:string = '';
   description:string = '';
   content:string = '';
   online:boolean = false;
-  isClicked: any;
+  like:number = 0;
 
   constructor(private articlesService: ArticleServiceService){
     this.profileService.currentUser$.subscribe((user) => {
@@ -56,6 +57,7 @@ export class ArticlesPageComponent {
       }
     })
   }
+  // CRUD Articles
   addArticles(){ 
     this.success = '';
     this.error = '';
@@ -67,7 +69,7 @@ export class ArticlesPageComponent {
     });
   }
 
-  editArticle(id:number){
+  editArticle(id:string){
     // empty messages
     this.success = '';
     this.error = '';
@@ -83,7 +85,7 @@ export class ArticlesPageComponent {
         }
     );  
   }
-  save(id:number){
+  save(id:string){
     this.values = [{id : id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
     this.articlesService.update(id, this.values[0]).subscribe({
       next: () => {
@@ -94,10 +96,10 @@ export class ArticlesPageComponent {
       }
     })
   }
-  getArticleId(id:number){
+  getArticleId(id:string){
     return this.id = id;
   }
-  deleteArticle(id:number){    
+  deleteArticle(id:string){    
     this.articlesService.delete(id).subscribe({
       next: () => {
         this.success = 'Article bien supprimé';         
@@ -107,11 +109,27 @@ export class ArticlesPageComponent {
       }
     })
   }
-
+  likeArticle(id:string){
+    this.articlesService.addLike(id).subscribe({
+        next: () => {
+         console.log('Article bien liké');     
+        },
+        error: () =>{
+          console.error('Impossible de liker l\'article =/');
+        }
+      }
+    )
+  }
   // FILTER METHODS
   filterArticle(userId:string, type:string){
       this.articlesService.filterOnline(userId, type).subscribe(
       (articles) => this.articles = articles
       ); 
   }
+  deleteFilter(){
+    this.articlesService.articles$.subscribe((articles) => {
+      this.articles = articles;          
+    });
+  }
+
 }

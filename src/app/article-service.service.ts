@@ -10,8 +10,8 @@ import {
   getDoc,
   docData,
 } from '@angular/fire/firestore';
-import { from, Observable, of, switchMap } from 'rxjs';
-import { query, updateDoc, where } from 'firebase/firestore';
+import { from, map, Observable, of, switchMap } from 'rxjs';
+import { increment, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { AuthService } from './services/auth.service';
 import { User } from 'firebase/auth';
 
@@ -52,20 +52,7 @@ export class ArticleServiceService {
     );
     
   }
-  articleFilterquery:any;
-  // FILTER METHODS
-  filterOnline(userId:string, type:string): Observable<any[]>{
-    const articlesCollection = collection(this.firestore, 'articles');
-    if(type === 'online'){
-      this.articleFilterquery = query(articlesCollection, where('online', "==", true), 
-      where('userId', '==', userId));     
-    }else if(type === 'offline'){
-      this.articleFilterquery = query(articlesCollection, where('online', "==", false), 
-      where('userId', '==', userId));  
-    }  
-    return collectionData(this.articleFilterquery, { idField: 'id' }) as Observable<any[]>;  
-  }
-
+  
   add(title: string, subtitle: string, description: string, content: string, userName: string, userId: string, online: boolean) 
   {
     const articlesCollection = collection(this.firestore, 'articles');
@@ -80,22 +67,35 @@ export class ArticleServiceService {
     });
   }
   // Get one article
-  get(id:number){
-    const articleIdString = id.toString();
-    const articleDocRef = doc(this.firestore, 'articles', articleIdString); 
-
+  get(id:string){
+    const articleDocRef = doc(this.firestore, 'articles', id); 
     return docData(articleDocRef);    
   }
   // Save an article
-  update(id:number, articleArray:any){
-    const articleIdString = id.toString();
-    const articleDocRef = doc(this.firestore, 'articles', articleIdString); 
+  update(id:string, articleArray:any){
+    const articleDocRef = doc(this.firestore, 'articles', id); 
     return from(updateDoc(articleDocRef, articleArray));
   }
 
-  delete(id:number){
-    const articleIdString = id.toString();
-    const articleDocRef = doc(this.firestore, 'articles', articleIdString);
+  delete(id:string){
+    const articleDocRef = doc(this.firestore, 'articles', id);
     return from(deleteDoc(articleDocRef));
+  }
+
+  // FILTER METHODS
+  filterOnline(userId:string, type:string): Observable<any[]>{
+    const articlesCollection = collection(this.firestore, 'articles');
+      const articleFilterquery = query(articlesCollection, where(type, "==", true), 
+      where('userId', '==', userId));     
+      return collectionData(articleFilterquery, { idField: 'id' }) as Observable<any[]>;  
+  }
+  filterFavorite(userId:number){
+    // const articlesCollection = collection(this.firestore, 'articles');
+    // const articleFilterquery = query(articlesCollection, where('online', "==", true), 
+    //   where('userId', '==', userId));
+  }
+  addLike(idArticle:string): Observable<void>{
+    const articleDocRef = doc(this.firestore, 'articles', idArticle);    
+    return from(updateDoc(articleDocRef, {like: increment(1)}));
   }
 }

@@ -13,22 +13,27 @@
   +
 </button>
 <div class="filter-container">
-  <button class="filter-btn" (click)="isClicked = !isClicked">Filtrer</button>
-  <select
-    id="filterOptions"
-    [style.display]="isClicked ? 'block' : 'none'"
-    name="filter"
-    id="filter"
-    multiple
-  >
-    <option value="option1" (click)="filterArticle(userId, 'online')">
-      En ligne
-    </option>
-    <option value="option2" (click)="filterArticle(userId, 'offline')">
-      Hors Ligne
-    </option>
-    <option value="option3">Par nombre de "j'aime"</option>
-  </select>
+  <div>
+    <button class="filter-btn" (click)="isClicked = !isClicked">Filtrer</button>
+    <select
+      id="filterOptions"
+      [style.display]="isClicked ? 'block' : 'none'"
+      name="filter"
+      id="filter"
+      multiple
+    >
+      <option value="option1" (click)="filterArticle(userId, 'online')">
+        En ligne
+      </option>
+      <option value="option2" (click)="filterArticle(userId, 'offline')">
+        Hors Ligne
+      </option>
+      <option value="option3">Articles préférés</option>
+    </select>
+  </div>
+  <div>
+    <button (click)="deleteFilter()">Annuler filtres</button>
+  </div>
 </div>
 <!-- ADD NEW ARTICLE -->
 <div
@@ -138,7 +143,7 @@
           </p>
         </div>
         <div class="icons">
-          <div>
+          <button (click)="likeArticle(article.id)" [disabled]="userId">
             <i
               class="fa-solid fa-heart"
               (mouseover)="isHovered = true"
@@ -147,8 +152,8 @@
                 'hovered fa-beat': isHovered,
               }"
             ></i
-            ><span style="margin-left: 5px">10</span>
-          </div>
+            ><span style="margin-left: 5px">{{ article.like || like }}</span>
+          </button>
           <div
             [ngClass]="{
               visible: article.online,
