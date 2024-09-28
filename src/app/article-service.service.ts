@@ -89,10 +89,11 @@ export class ArticleServiceService {
       where('userId', '==', userId));     
       return collectionData(articleFilterquery, { idField: 'id' }) as Observable<any[]>;  
   }
-  filterFavorite(userId:number){
-    // const articlesCollection = collection(this.firestore, 'articles');
-    // const articleFilterquery = query(articlesCollection, where('online', "==", true), 
-    //   where('userId', '==', userId));
+  filterFavorite(userId:string){
+    const articlesCollection = collection(this.firestore, 'articles');
+    const articleFilterquery = query(articlesCollection, orderBy('like', "desc"), 
+    where('userId', '==', userId));
+    return collectionData(articleFilterquery, { idField: 'id' }) as Observable<any[]>;  
   }
   addLike(idArticle:string): Observable<void>{
     const articleDocRef = doc(this.firestore, 'articles', idArticle);    

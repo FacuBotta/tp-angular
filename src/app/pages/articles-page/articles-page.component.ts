@@ -122,9 +122,14 @@ export class ArticlesPageComponent {
   }
   // FILTER METHODS
   filterArticle(userId:string, type:boolean){
-      this.articlesService.filterOnline(userId, type).subscribe(
+    this.articlesService.filterOnline(userId, type).subscribe(
+    (articles) => this.articles = articles
+    ); 
+  }
+  filterByLike(id:string){
+    this.articlesService.filterFavorite(id).subscribe(
       (articles) => this.articles = articles
-      ); 
+    )
   }
   deleteFilter(){
     this.articlesService.articles$.subscribe((articles) => {

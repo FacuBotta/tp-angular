@@ -22,13 +22,15 @@
       id="filter"
       multiple
     >
-      <option value="option1" (click)="filterArticle(userId, true)">
+      <option value="online" (click)="filterArticle(userId, true)">
         En ligne
       </option>
-      <option value="option2" (click)="filterArticle(userId, false)">
+      <option value="offline" (click)="filterArticle(userId, false)">
         Hors Ligne
       </option>
-      <option value="option3">Articles préférés</option>
+      <option value="favorite" (click)="filterByLike(userId)">
+        Articles préférés
+      </option>
     </select>
   </div>
   <div>
