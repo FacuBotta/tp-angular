@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ArticleServiceService } from '../../article-service.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -15,14 +15,14 @@ import { user } from '@angular/fire/auth';
   templateUrl: './articles-page.component.html',
   styleUrl: './articles-page.component.css'
 })
-export class ArticlesPageComponent implements OnInit{
+export class ArticlesPageComponent {
   profileService = inject(ProfileService);
-  pageTitle = 'Liste des articles';
+  pageTitle = 'Mes articles';
   list_articles:any = [];
   valuesArticle:any = [];
   values:any = [];
   isHovered:boolean = false;
-  articles$: Observable<ArticleInterface[]>;
+  articles$: Observable<any[]> = of([])
   articles: ArticleInterface[] = [];
   article:any;  
   displayModal:boolean = false;
@@ -42,47 +42,46 @@ export class ArticlesPageComponent implements OnInit{
   description:string = '';
   content:string = '';
   online:boolean = false;
+  isClicked: any;
 
   constructor(private articlesService: ArticleServiceService){
-    this.articles$ = this.articlesService.articles$;
     this.profileService.currentUser$.subscribe((user) => {
       if (user) {
-        this.userId = user.id;  
+        this.userId = user.uid;  
         this.userName = user.username;  
+        // this.articlesService.articles$ = this.articlesService.getAllArticles(user.uid);      
+        this.articlesService.articles$.subscribe((articles) => {
+          this.articles = articles;          
+        });
       }
     })
   }
-
-  ngOnInit(): void {
-    this.articles$.subscribe((articles) => {
-      this.articles = articles;     
-    });
-  }
   addArticles(){ 
+    this.success = '';
+    this.error = '';
     this.articlesService.add(this.title, this.subtitle, this.description, this.content, this.userName, this.userId, this.online).then(() => {
       this.success = 'Article bien ajouté !';
     })
     .catch((error: any) => {
-      this.error = "Impossible d'ajouter' l'article =/";        
-
+      this.error = "Impossible d'ajouter' l'article =/";   
     });
   }
-  editArticle(id:number){
-    this.article = this.articlesService.get(id).subscribe(
-      (data:any) => {
-        this.valuesArticle = data;
-        this.id = id;
-        this.title = this.valuesArticle.title;
-        this.subtitle = this.valuesArticle.subtitle;
-        this.description = this.valuesArticle.description;
-        this.content = this.valuesArticle.content;
-        this.online = this.valuesArticle.online;    
-        console.log(this.online);
 
-      }
-    );
-    
-    // Affect values
+  editArticle(id:number){
+    // empty messages
+    this.success = '';
+    this.error = '';
+    this.article = this.articlesService.get(id).subscribe(
+        (data:any) => {
+          this.valuesArticle = data;
+          this.id = id;
+          this.title = this.valuesArticle.title;
+          this.subtitle = this.valuesArticle.subtitle;
+          this.description = this.valuesArticle.description;
+          this.content = this.valuesArticle.content;
+          this.online = this.valuesArticle.online;  
+        }
+    );  
   }
   save(id:number){
     this.values = [{id : id, title : this.title, subtitle : this.subtitle, description: this.description, content : this.content, online : this.online}];    
@@ -95,8 +94,10 @@ export class ArticlesPageComponent implements OnInit{
       }
     })
   }
-  deleteArticle(id:number){
-    
+  getArticleId(id:number){
+    return this.id = id;
+  }
+  deleteArticle(id:number){    
     this.articlesService.delete(id).subscribe({
       next: () => {
         this.success = 'Article bien supprimé';         
@@ -105,5 +106,12 @@ export class ArticlesPageComponent implements OnInit{
         this.error = 'Impossible de supprimer l\'article =/';
       }
     })
+  }
+
+  // FILTER METHODS
+  filterArticle(userId:string, type:string){
+      this.articlesService.filterOnline(userId, type).subscribe(
+      (articles) => this.articles = articles
+      ); 
   }
 }

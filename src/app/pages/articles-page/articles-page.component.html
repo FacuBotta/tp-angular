@@ -1,9 +1,36 @@
 <div class="container_title">
   <h1 class="main-title">{{ pageTitle }}</h1>
 </div>
-<button class="plus-button" (click)="displayAddModal = !displayAddModal">
+<!-- See all articles -->
+<div class="allArticlesBtn" (click)="[(pageTitle = 'Tous les articles')]">
+  <button>Voir tous les articles</button>
+</div>
+<!-- Add Article BTN -->
+<button
+  class="plus-button"
+  (click)="[(displayAddModal = !displayAddModal), (success = ''), (error = '')]"
+>
   +
 </button>
+<div class="filter-container">
+  <button class="filter-btn" (click)="isClicked = !isClicked">Filtrer</button>
+  <select
+    id="filterOptions"
+    [style.display]="isClicked ? 'block' : 'none'"
+    name="filter"
+    id="filter"
+    multiple
+  >
+    <option value="option1" (click)="filterArticle(userId, 'online')">
+      En ligne
+    </option>
+    <option value="option2" (click)="filterArticle(userId, 'offline')">
+      Hors Ligne
+    </option>
+    <option value="option3">Par nombre de "j'aime"</option>
+  </select>
+</div>
+<!-- ADD NEW ARTICLE -->
 <div
   id="updateModal"
   class="addArticle"
@@ -22,6 +49,8 @@
       </div>
     </div>
     <form class="article-form" action="#" method="POST">
+      <p class="message-box success" *ngIf="success != ''">{{ success }}</p>
+      <p class="message-box error" *ngIf="error != ''">{{ error }}</p>
       <label for="title">Titre:</label>
       <input
         type="text"
@@ -94,6 +123,7 @@
     </form>
   </div>
 </div>
+<!-- BODY : ARTICLES -->
 <div class="container">
   <div class="card" *ngFor="let article of articles; let i = index">
     <h2>{{ article.title }}</h2>
@@ -144,51 +174,54 @@
           ></i>
           <i
             class="fa-solid fa-trash"
-            (click)="displayConfirmModal = !displayConfirmModal"
-          ></i>
-        </div>
-      </div>
-    </div>
-    <!-- MODAL CONFIRM -->
-    <div
-      id="confirmModal"
-      class="modalSupp"
-      [ngClass]="[!displayConfirmModal ? 'hidden' : 'display']"
-    >
-      <div class="modal-content">
-        <span
-          class="close-btn"
-          id="closeModal"
-          (click)="displayConfirmModal = !displayConfirmModal"
-          >&times;</span
-        >
-        <h2>Confirmer la suppression</h2>
-        <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
-        <div class="modal-actions">
-          <button
-            id="confirmDeleteBtn"
-            class="confirm-btn"
             (click)="
               [
-                deleteArticle(article.id),
+                getArticleId(article.id),
                 (displayConfirmModal = !displayConfirmModal)
               ]
             "
-          >
-            Confirmer
-          </button>
-          <button
-            id="cancelDeleteBtn"
-            class="cancel-btn"
-            (click)="displayConfirmModal = !displayConfirmModal"
-          >
-            Annuler
-          </button>
+          ></i>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- MODAL CONFIRM -->
+<div
+  id="confirmModal"
+  class="modalSupp"
+  [ngClass]="[!displayConfirmModal ? 'hidden' : 'display']"
+>
+  <div class="modal-content">
+    <span
+      class="close-btn"
+      id="closeModal"
+      (click)="displayConfirmModal = !displayConfirmModal"
+      >&times;</span
+    >
+    <h2>Confirmer la suppression</h2>
+    <p>Êtes-vous sûr de vouloir supprimer cet article ?</p>
+    <div class="modal-actions">
+      <button
+        id="confirmDeleteBtn"
+        class="confirm-btn"
+        (click)="
+          [deleteArticle(id), (displayConfirmModal = !displayConfirmModal)]
+        "
+      >
+        Confirmer
+      </button>
+      <button
+        id="cancelDeleteBtn"
+        class="cancel-btn"
+        (click)="displayConfirmModal = !displayConfirmModal"
+      >
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>
+<!-- EDIT MODAL -->
 <div
   id="editModal"
   class="modal"
@@ -203,6 +236,7 @@
         <i class="fa-solid fa-xmark" (click)="displayModal = !displayModal"></i>
       </div>
     </div>
+    <!-- Form -->
     <form id="editArticleForm">
       <p class="message-box" *ngIf="success != ''">{{ success }}</p>
       <p class="message-box" *ngIf="error != ''">{{ error }}</p>
@@ -216,53 +250,37 @@
         readonly
       />
 
-      <div
-        id="editModal"
-        class="modal"
-        [ngClass]="[!displayModal ? 'hidden' : 'display']"
-      >
-        <div class="modal-content">
-          <div class="header">
-            <div>
-              <h2>Modifier l'Article</h2>
-            </div>
-            <div class="close-btn">
-              <i
-                class="fa-solid fa-xmark"
-                (click)="displayModal = !displayModal"
-              ></i>
-            </div>
-          </div>
+      <label for="article-title">Titre</label>
+      <input
+        type="text"
+        id="article-title"
+        name="title"
+        [(ngModel)]="title"
+        [value]="valuesArticle.title"
+      />
+      <label for="article-description">Description</label>
+      <input
+        type="text"
+        id="article-description"
+        name="description"
+        [(ngModel)]="description"
+        [value]="valuesArticle.description"
+      />
+      <label for="article-content">Contenu</label>
+      <textarea
+        type="text"
+        id="article-content"
+        name="content"
+        [(ngModel)]="content"
+        [placeholder]="valuesArticle.content"
+      ></textarea>
 
-          <form id="editArticleForm">
-            <label for="article-id">ID de l'Article</label>
-            <input
-              type="text"
-              id="article-id"
-              name="id"
-              [value]="valuesArticle.id"
-              [(ngModel)]="id"
-              readonly
-            />
-
-            <label for="article-title">Titre</label>
-            <input
-              type="text"
-              id="article-title"
-              name="title"
-              [(ngModel)]="title"
-              [value]="valuesArticle.title"
-            />
-
-            <label for="article-online">Statut en Ligne</label>
-            <label id="article-online" class="switch">
-              <input type="checkbox" name="online" [(ngModel)]="online" />
-              <span class="slider round"></span>
-            </label>
-            <button type="submit" (click)="save(id)">Sauvegarder</button>
-          </form>
-        </div>
-      </div>
+      <label for="article-online">Statut en Ligne</label>
+      <label id="article-online" class="switch">
+        <input type="checkbox" name="online" [(ngModel)]="online" />
+        <span class="slider round"></span>
+      </label>
+      <button type="submit" (click)="save(id)">Sauvegarder</button>
     </form>
   </div>
 </div>
