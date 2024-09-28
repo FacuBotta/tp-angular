@@ -83,9 +83,9 @@ export class ArticleServiceService {
   }
 
   // FILTER METHODS
-  filterOnline(userId:string, type:string): Observable<any[]>{
+  filterOnline(userId:string, type:boolean): Observable<any[]>{
     const articlesCollection = collection(this.firestore, 'articles');
-      const articleFilterquery = query(articlesCollection, where(type, "==", true), 
+      const articleFilterquery = query(articlesCollection, where('online', "==", type), 
       where('userId', '==', userId));     
       return collectionData(articleFilterquery, { idField: 'id' }) as Observable<any[]>;  
   }

@@ -121,7 +121,7 @@ export class ArticlesPageComponent {
     )
   }
   // FILTER METHODS
-  filterArticle(userId:string, type:string){
+  filterArticle(userId:string, type:boolean){
       this.articlesService.filterOnline(userId, type).subscribe(
       (articles) => this.articles = articles
       ); 
